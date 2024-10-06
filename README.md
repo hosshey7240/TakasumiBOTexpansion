@@ -3,6 +3,7 @@
 - **このレポジトリはGPL-3.0ライセンスの元で公開されています**
 - **これを使って出来たコードは同じライセンスで公開する必要があるためご注意下さい**
 - **このbotはTakasumiBOTv2に基づいた機能となっています**
+- **このbotは私のレポジトリにあるTakasumiBOT  work notification を元に機能を追加したものです
 # TakasumiBOT開発
 - [Taka005](https://github.com/Taka005)
 - TakasumiBOTサポートサーバー↓
