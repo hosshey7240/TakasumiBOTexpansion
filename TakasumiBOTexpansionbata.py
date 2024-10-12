@@ -50,7 +50,7 @@ async def status(interaction: discord.Interaction):
     embed.add_field(name="CPU", inline=True, value=f"{cpu_usage}%")
     embed.add_field(name="RAM", inline=True, value=f"{ram_usage}%")
     embed.add_field(name="DISK", inline=True, value=f"{disk_usage_percent:.1f}%")
-    embed.set_footer(text=f"TakasumiBOT work Notification | Ping: {latency:.2f}ms")
+    embed.set_footer(text=f"TakasumiBOT expansion β | Ping: {latency:.2f}ms")
     await interaction.response.send_message(embed=embed)
 
 @tree.command(name="guess get money  ",description="入力された金額においてguess時の勝ち負けの金額を表示します")
