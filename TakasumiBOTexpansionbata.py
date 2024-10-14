@@ -15,14 +15,6 @@ intents = discord.Intents.all()
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
 
-@client.event
-async def on_message(message):
-    if message.author.id == 981314695543783484 and len(message.embeds) == 1 and "コイン手に入れました" in message.embeds[0].author.name:
-        embed = discord.Embed(title="TakasumiBOT work通知", description="workを受信しました。\n20分後に通知します。", color=discord.Color.brand_green())
-        await message.reply(embed=embed)
-        await asyncio.sleep(1200)
-        embed2 = discord.Embed(title="TakasumiBOT work通知", description="workの時間です\n</work:1132868147519692871>でお金を得ましょう", color=discord.Color.brand_green())
-        await message.channel.send(embed=embed2)
 
 @client.event
 async def on_ready():
@@ -50,19 +42,35 @@ async def status(interaction: discord.Interaction):
     embed.add_field(name="CPU", inline=True, value=f"{cpu_usage}%")
     embed.add_field(name="RAM", inline=True, value=f"{ram_usage}%")
     embed.add_field(name="DISK", inline=True, value=f"{disk_usage_percent:.1f}%")
-    embed.set_footer(text=f"TakasumiBOT expansion β | Ping: {latency:.2f}ms")
+    embed.set_footer(text=f"TakasumiBOT work Notification | Ping: {latency:.2f}ms")
     await interaction.response.send_message(embed=embed)
 
-@tree.command(name="guess get money  ",description="入力された金額においてguess時の勝ち負けの金額を表示します")
-@discord.app_commands.describe(amount="金額を入力してください")
-async def guessinfo_command(interaction: discord.Interaction, amount:int):
-        #計算
-    win_result = math.floor(amount * 2.8)
-    lose_result = math.floor(amount * 1.5)
-    #埋め込みの作成
-    result_embed = discord.Embed(title="結果", color=discord.Color.blue())
-    result_embed.add_field(name="入力金額", value=f"{amount}", inline=False)
-    result_embed.add_field(name="勝った場合", value=f"最終金額: {win_result}", inline=False)
-    result_embed.add_field(name="負けた場合", value=f"最終金額: {lose_result}", inline=False)
-    #結果を送信
-    await interaction.response.send_message(embed=result_embed)
+@tree.command(name="roll simulation")   
+
+@tree.command(name="guessinfo",description="guess時の勝ち負けの金額を表示します")
+@discord.app_commands.describe(amount="賭ける金額を入力")
+@discord.app_commands.choices(option=[
+    discord.app_commands.Choice(name="手に入れる金額を表示", value="手に入れる金額を表示"),
+    discord.app_commands.Choice(name="減らす最大金額をきめてguessの結果を表示", value="減らす最大金額をきめてguessの結果を表示")
+])
+async def guessinfo(interaction: discord.Interaction,amount:int, option: str):
+    if option == "手に入れる金額を表示":
+         #計算
+         win_result = math.floor(amount * 2.8)
+         lose_result = math.floor(amount * 1.5)
+         #埋め込みの作成
+         get_money_embed = discord.Embed(title="結果", color=discord.Color.blue())
+         get_money_embed.add_field(name="入力金額", value=f"{amount}", inline=False)
+         get_money_embed.add_field(name="勝った場合", value=f"最終金額: {win_result}", inline=False)
+         get_money_embed.add_field(name="負けた場合", value=f"最終金額: {lose_result}", inline=False)
+         #送信
+         await interaction.response.send_message(embed=get_money_embed)
+    elif option == "減らす最大金額をきめてguessの結果を表示":
+         #計算
+         useable_money= math.floor(amount//1.5)
+         win_result_for_using_money = math.floor(useable_money*2.8)
+         usable_money_embed = discord.Embed(title="結果",color=discord.Color.blue())
+         usable_money_embed.add_field(name="買った場合",value=f"手に入れられる金額:{win_result_for_using_money}",inline=False)
+         usable_money_embed.add_field(name="掛けられるコイン数",value=f"{useable_money}",inline=False)
+        #送信
+         await interaction.response.send_message(embed=usable_money_embed)
