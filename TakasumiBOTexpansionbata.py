@@ -44,8 +44,7 @@ async def status(interaction: discord.Interaction):
     embed.add_field(name="DISK", inline=True, value=f"{disk_usage_percent:.1f}%")
     embed.set_footer(text=f"TakasumiBOT work Notification | Ping: {latency:.2f}ms")
     await interaction.response.send_message(embed=embed)
-
-@tree.command(name="roll simulation")   
+  
 
 @tree.command(name="guessinfo",description="guess時の勝ち負けの金額を表示します")
 @discord.app_commands.describe(amount="賭ける金額を入力")
